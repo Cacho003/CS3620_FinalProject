@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<style>
+    h1 {
+        text-align: center;
+    }
+    .nav-icons img {
+        width: 40px;
+        height: 40px;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Socially</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+
+</head>
+<body>
+    <h1>Create Post</h1>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+
+
+
+    {% load static %}
+    <div class="d-flex justify-content-center my-3 nav-icons" style="gap: 30px;">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'icons/home.png' %}" alt="Home">
+        </a>
+        <a href="{% url 'create_post' %}">
+            <img src="{% static 'icons/plus.png' %}" alt="Create Post">
+        </a>
+        <a href="{% url 'profile' %}">
+            <img src="{% static 'icons/user.png' %}" alt="Profile">
+        </a>
+        <a href="{% url 'user_list' %}">
+            <img src="{% static 'icons/friends.png' %}" alt="Friends">
+        </a>
+    </div>
+       {% for post in posts %}
+        <div>
+            <strong>{{ post.author.username }}</strong> - {{ post.created_at }}
+            <p>{{ post.content }}</p>
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.image.alt }}">
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <div class="container mt-3">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+    </div>
+</body>
+</html>
